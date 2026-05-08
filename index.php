@@ -300,7 +300,37 @@
         </div>
 
     </div>
+</div>
+
 <script>
+function taiDanhSach() {
+    var xhr = new XMLHttpRequest();
+
+    var url = "api_students.php?action=list&random=" + Math.random();
+
+    ghiLog("Đang gửi GET:\n" + url);
+
+    xhr.open("GET", url, true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            /*
+                Server trả về HTML
+                responseText chứa toàn bộ HTML
+            */
+            document.getElementById("danhSachSinhVien").innerHTML = xhr.responseText;
+
+            ghiLog(
+                "GET hoàn tất.\n" +
+                "Dữ liệu được nhận bằng xhr.responseText.\n" +
+                "Sau đó đưa vào giao diện bằng innerHTML."
+            );
+        }
+    };
+
+    xhr.send();
+}
+
 function themSinhVien() {
     var mssv = document.getElementById("mssv").value;
     var ten = document.getElementById("ten").value;
@@ -322,6 +352,15 @@ function themSinhVien() {
     xhr.open("POST", "api_students.php?action=create", true);
 
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    ghiLog(
+        "Đang gửi POST:\n" +
+        "api_students.php?action=create\n\n" +
+        "Header:\n" +
+        "Content-Type: application/x-www-form-urlencoded\n\n" +
+        "Body:\n" + data
+    );
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             /*
@@ -330,11 +369,34 @@ function themSinhVien() {
             */
             document.getElementById("thongBao").style.display = "block";
             document.getElementById("thongBao").innerText = xhr.responseText;
+
+            ghiLog(
+                "POST hoàn tất.\n" +
+                "PHP trả về thông báo qua xhr.responseText:\n\n" +
+                xhr.responseText
+            );
+
+            taiDanhSach();
         }
     };
+
     xhr.send(data);
 }
+
+function xoaForm() {
+    document.getElementById("mssv").value = "";
+    document.getElementById("ten").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("sdt").value = "";
+    document.getElementById("nganh").value = "";
+}
+
+function ghiLog(noiDung) {
+    document.getElementById("log").innerText = noiDung;
+}
+
+taiDanhSach();
 </script>
-</div>
+
 </body>
 </html>
