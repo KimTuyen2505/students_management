@@ -24,7 +24,64 @@ function ghiDanhSach($file, $data) {
 function htmlAnToan($text) {
     return htmlspecialchars($text, ENT_QUOTES, "UTF-8");
 }
+
 $action = $_GET["action"];
+
+/*
+    GET: lấy danh sách sinh viên
+*/
+if ($action == "list") {
+    header("Content-Type: text/html; charset=UTF-8");
+
+    $danhSach = docDanhSach($file);
+
+    if (count($danhSach) == 0) {
+        echo "Chưa có sinh viên nào.";
+        exit;
+    }
+
+    for ($i = 0; $i < count($danhSach); $i++) {
+        $sv = $danhSach[$i];
+
+        echo "<div class='student-card'>";
+
+        echo "<div class='student-icon'>👤</div>";
+
+        echo "<div class='student-info'>";
+        echo "<div class='mssv'>" . htmlAnToan($sv["mssv"]) . "</div>";
+        echo "<h3>" . htmlAnToan($sv["ten"]) . "</h3>";
+
+        echo "<div class='student-detail'>";
+
+        echo "<div class='info-row'>";
+        echo "<div class='info-label'>Email</div>";
+        echo "<div class='info-value'>" . htmlAnToan($sv["email"]) . "</div>";
+        echo "</div>";
+
+        echo "<div class='info-row'>";
+        echo "<div class='info-label'>SĐT</div>";
+        echo "<div class='info-value'>" . htmlAnToan($sv["sdt"]) . "</div>";
+        echo "</div>";
+
+        echo "<div class='info-row'>";
+        echo "<div class='info-label'>Ngành</div>";
+        echo "<div class='info-value'>" . htmlAnToan($sv["nganh"]) . "</div>";
+        echo "</div>";
+
+        echo "<div class='info-row'>";
+        echo "<div class='info-label'>GT</div>";
+        echo "<div class='info-value'>" . htmlAnToan($sv["gioi_tinh"]) . "</div>";
+        echo "</div>";
+
+        echo "</div>";
+        echo "</div>";
+
+        echo "</div>";
+    }
+
+    exit;
+}
+
 /*
     POST: thêm sinh viên mới
 */
