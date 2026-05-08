@@ -300,7 +300,41 @@
         </div>
 
     </div>
+<script>
+function themSinhVien() {
+    var mssv = document.getElementById("mssv").value;
+    var ten = document.getElementById("ten").value;
+    var email = document.getElementById("email").value;
+    var sdt = document.getElementById("sdt").value;
+    var nganh = document.getElementById("nganh").value;
+    var gioi_tinh = document.getElementById("gioi_tinh").value;
 
+    var data = "";
+    data = data + "mssv=" + encodeURIComponent(mssv);
+    data = data + "&ten=" + encodeURIComponent(ten);
+    data = data + "&email=" + encodeURIComponent(email);
+    data = data + "&sdt=" + encodeURIComponent(sdt);
+    data = data + "&nganh=" + encodeURIComponent(nganh);
+    data = data + "&gioi_tinh=" + encodeURIComponent(gioi_tinh);
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "api_students.php?action=create", true);
+
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            /*
+                Server trả về text thông báo.
+                responseText chứa text đó.
+            */
+            document.getElementById("thongBao").style.display = "block";
+            document.getElementById("thongBao").innerText = xhr.responseText;
+        }
+    };
+    xhr.send(data);
+}
+</script>
 </div>
 </body>
 </html>
